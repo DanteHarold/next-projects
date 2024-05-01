@@ -3,7 +3,8 @@
 import { FormEvent, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import * as todosApi from "../helpers/todos";
+import { addTodo, deleteCompleted } from "../actions/todo-actions";
+// import * as todosApi from "../helpers/todos";
 
 export const NewTodo = () => {
   const [description, setDescription] = useState("");
@@ -13,15 +14,19 @@ export const NewTodo = () => {
     if (description.trim().length === 0) return;
     console.log("Form Submitted", description);
 
-    todosApi.createTodo(description);
+    //* Versión sin Server Actions
+    // todosApi.createTodo(description);
+    // setDescription("");
+    // router.refresh();
+
+    await addTodo(description);
     setDescription("");
-    router.refresh();
   };
 
-  const deleteCompleted = async () => {
-    await todosApi.deleteCompletedTodos();
-    router.refresh();
-  };
+  // const deleteCompleted = async () => {
+  //   await todosApi.deleteCompletedTodos();
+  //   router.refresh();
+  // };
 
   return (
     <form onSubmit={onSubmit} className="flex w-full">
